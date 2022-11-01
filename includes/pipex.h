@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:54:16 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/01 19:00:20 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/01 20:24:43 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/wait.h>
 # include <features.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include "../utils/libft/libft.h"
 
 typedef struct s_command
