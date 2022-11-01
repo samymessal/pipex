@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 18:25:53 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/01 18:56:10 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/01 20:40:01 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ void    fill_list(t_command *com, char *arg)
         com->options[i] = split[i + 1];
         i++;
     }
+    com->options[i] = NULL;
     com->next = NULL;
 }
