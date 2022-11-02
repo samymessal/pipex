@@ -6,28 +6,11 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:51:18 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/01 19:00:44 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/02 22:03:20 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-
-t_command   *extract_commands(char **av)
-{
-    t_command   *com;
-    int         i;
-    
-    i = 3;
-    com = ft_lstnew_com(av[2]);
-    if (!com)
-        return (NULL);
-    while (av && av[i])
-    {
-        ft_lst_addback_com(&com, ft_lstnew_com(av[i]));
-        i++;
-    }
-    return(com);
-}
 
 char    **get_paths(char **envp)
 {
@@ -52,4 +35,38 @@ char    **get_paths(char **envp)
     if (!paths)
         return (NULL);
     return (paths);
+}
+
+t_command   *extract_commands(char **av)
+{
+    t_command   *com;
+    int         i;
+    
+    i = 3;
+    com = ft_lstnew_com(av[2]);
+    if (!com)
+        return (NULL);
+    while (av && av[i])
+    {
+        ft_lst_addback_com(&com, ft_lstnew_com(av[i]));
+        i++;
+    }
+    return(com);
+}
+
+char    *command_exists(t_command *com, char **paths)
+{
+    char    *final_path;
+    int     i;
+
+    i = 0;
+    while (paths && paths[i])
+    {
+        final_path = ft_strjoin(paths[i], "/");
+        final_path = ft_strjoin(final_path, com->command);
+        if (!access(final_path, X_OK))
+            return (final_path);
+        i++;
+    }
+    return (NULL);
 }

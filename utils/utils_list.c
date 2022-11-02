@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 18:25:53 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/01 20:40:01 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/02 22:27:47 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@ void    fill_list(t_command *com, char *arg)
     if (!split)
         return ;
     com->command = split[0];
-    com->options = ft_calloc(sizeof(char *), ft_count_tab(split));
+    com->options = ft_calloc(sizeof(char *), ft_count_tab(split) + 1);
     if (!com->options)
         return ;
-    while(i < (ft_count_tab(split) - 1))
+    i = 0;
+    while(i < (ft_count_tab(split)))
     {
-        com->options[i] = split[i + 1];
+        com->options[i] = split[i];
         i++;
     }
     com->options[i] = NULL;
