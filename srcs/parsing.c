@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:51:18 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/02 22:03:20 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/03 14:24:50 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ char    *command_exists(t_command *com, char **paths)
     i = 0;
     while (paths && paths[i])
     {
-        final_path = ft_strjoin(paths[i], "/");
+        if (!access(com->command, X_OK))
+			return(com->command);
+		final_path = ft_strjoin(paths[i], "/");
         final_path = ft_strjoin(final_path, com->command);
         if (!access(final_path, X_OK))
             return (final_path);
