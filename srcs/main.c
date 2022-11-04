@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:35:51 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/04 17:13:33 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/04 19:13:38 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int main(int ac, char **av, char **envp)
     paths = get_paths(envp);
     com = extract_commands(av);
     infile = open(av[1], O_RDONLY);
+	if (infile != -1)
+		dup2(infile, STDIN_FILENO);
     outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC);
     // dup2(outfile, STDOUT_FILENO);
     while (com)
@@ -38,24 +40,17 @@ int main(int ac, char **av, char **envp)
         id = fork();
 		if (id == 0)
 		{
-			// si deuxieme command old_fd STDIN
-			// si derniere commande outfile stdout
 			if (com->index == ac - 4)
 				dup2(outfile, STDOUT_FILENO);
 			else
 				dup2(fd[1], STDOUT_FILENO);
 			if (com->index != 0)
 				dup2(old_fd, STDIN_FILENO);
-			else
-			{
-				if (infile != -1)
-					dup2(infile, STDIN_FILENO);
-			}
 			final_path = command_exists(com, paths);
-			// dprintf(2, "%s\n", final_path);
 			if (final_path)
 				execve(final_path, com->options, envp);
-			// close(fd[1]);
+			else
+				return (0);
 		}
 		else
 		{
