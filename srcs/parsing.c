@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:51:18 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/03 14:24:50 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/04 16:35:50 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,21 @@ t_command   *extract_commands(char **av)
 {
     t_command   *com;
     int         i;
+	int			index;
     
     i = 3;
-    com = ft_lstnew_com(av[2]);
+	index = 0;
+    com = ft_lstnew_com(av[2], index);
+	index++;
     if (!com)
         return (NULL);
     while (av && av[i])
     {
-        ft_lst_addback_com(&com, ft_lstnew_com(av[i]));
+        ft_lst_addback_com(&com, ft_lstnew_com(av[i], index));
         i++;
+		index++;
+		if (!av[i + 1])
+			break;
     }
     return(com);
 }

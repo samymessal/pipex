@@ -6,20 +6,20 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 18:25:53 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/03 13:23:05 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/04 16:36:21 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-t_command	*ft_lstnew_com(char *arg)
+t_command	*ft_lstnew_com(char *arg, int index)
 {
 	t_command	*new;
 
 	new = malloc(sizeof(t_command) * 1);
 	if (!new)
 		return (NULL);
-	fill_list(new, arg);
+	fill_list(new, arg, index);
 	return (new);
 }
 
@@ -33,7 +33,7 @@ void    ft_lst_addback_com(t_command **com, t_command *new)
     copy->next = new;
 }
 
-void    fill_list(t_command *com, char *arg)
+void    fill_list(t_command *com, char *arg, int index)
 {
     char    **split;
     int     i;
@@ -52,6 +52,7 @@ void    fill_list(t_command *com, char *arg)
         i++;
     }
     com->options[i] = NULL;
+	com->index = index;
     com->next = NULL;
 }
 

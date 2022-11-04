@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:35:51 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/03 16:52:43 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/04 17:13:33 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,40 +21,50 @@ int main(int ac, char **av, char **envp)
     int         infile;
     int         outfile;
 	int			fd[2];
+	int			old_fd;
 
     paths = get_paths(envp);
     com = extract_commands(av);
-	if (pipe(fd) == -1)
-	{
-		write(1, "Error in pipe\n", 14);
-		return (1);
-	}
-    // infile = open(av[1], O_RDONLY);
-    // if (infile != -1)
-    //     dup2(infile, STDIN_FILENO);
-    // outfile = open(av[3], O_RDWR | O_CREAT);
+    infile = open(av[1], O_RDONLY);
+    outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC);
     // dup2(outfile, STDOUT_FILENO);
     while (com)
     {
+		if (pipe(fd) == -1)
+		{
+			write(1, "Error in pipe\n", 14);
+			return (1);
+		}
         id = fork();
-		wait(NULL);
 		if (id == 0)
 		{
-			close(fd[0]);
-			dup2(fd[1], STDOUT_FILENO);
+			// si deuxieme command old_fd STDIN
+			// si derniere commande outfile stdout
+			if (com->index == ac - 4)
+				dup2(outfile, STDOUT_FILENO);
+			else
+				dup2(fd[1], STDOUT_FILENO);
+			if (com->index != 0)
+				dup2(old_fd, STDIN_FILENO);
+			else
+			{
+				if (infile != -1)
+					dup2(infile, STDIN_FILENO);
+			}
 			final_path = command_exists(com, paths);
+			// dprintf(2, "%s\n", final_path);
 			if (final_path)
 				execve(final_path, com->options, envp);
-			close(fd[1]);
+			// close(fd[1]);
 		}
 		else
 		{
+			old_fd = fd[0];
 			close(fd[1]);
-			dup2(fd[0], STDIN_FILENO);
 			com = com->next;
-			close(fd[0]);
 		}
     }
+	wait(NULL);
     // close(infile);
     // close(outfile);
 }

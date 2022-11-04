@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:54:16 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/03 13:23:20 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/04 16:26:47 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_command
 {
     char                *command;
     char                **options;
+	int					index;
     struct s_command    *next;
 }               t_command;
 /*----------PARSING-----------*/
@@ -34,9 +35,9 @@ t_command   *extract_commands(char **av);
 char        *command_exists(t_command *com, char **paths);
 /*----------UTILS-------------*/
 int         ft_count_tab(char **tab);
-t_command	*ft_lstnew_com(char *arg);
+t_command	*ft_lstnew_com(char *arg, int index);
 void        ft_lst_addback_com(t_command **com, t_command *new);
-void        fill_list(t_command *com, char *arg);
+void        fill_list(t_command *com, char *arg, int index);
 int			len_list(t_command *com);
 
 #endif
