@@ -6,11 +6,58 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 21:21:16 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/01 16:10:07 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/05 13:52:26 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+int	*find_single_quotes(char *s)
+{
+	int	count;
+	int	j;
+	int	*positions;
+	
+	count = 0;
+	j = 0;
+	while (s && s[j])
+	{
+		if (s[j] == '\'')
+			count++;
+		j++;
+	}
+	positions = malloc(sizeof(int) * (count + 1));
+	if (!positions)
+		return (NULL);
+	j = 0;
+	count = 0;
+	while (s && s[j])
+	{
+		if (s[j] == '\'')
+			positions[count++] = j;
+		j++;
+	}
+	positions[count] = 0;
+	return (positions);
+}
+
+int	between_quotes(char *s, int i)
+{
+	int	j;
+	int	*positions;
+
+	j = 0;
+	positions = find_single_quotes(s);
+	if (!positions)
+		return (0);
+	while (positions && positions[j] && positions[j + 1])
+	{
+		if (i > positions[j] && i < positions[j + 1])
+			return (free(positions), 1);
+		j++;
+	}
+	return (free(positions), 0);
+}
 
 static size_t	ft_cwords(char const *s, char c)
 {
@@ -21,10 +68,10 @@ static size_t	ft_cwords(char const *s, char c)
 	count = 0;
 	while (s[i])
 	{
-		if (s[i] != c)
+		if (s[i] != c && !between_quotes((char *)s, i))
 		{
 			count++;
-			while (s[i] && s[i] != c)
+			while (s[i] && (s[i] != c || between_quotes((char *)s, i)))
 				i++;
 		}
 		while (s[i] && s[i] == c)
@@ -38,7 +85,7 @@ static size_t	ft_wdlen(char const *s, char c, int i)
 	size_t	len;
 
 	len = 0;
-	while (s[i] && s[i] != c)
+	while (s[i] && (s[i] != c || between_quotes((char *)s, i)))
 	{
 		i++;
 		len++;
@@ -66,7 +113,7 @@ char	**ft_split(char *s, char c)
 		big[j] = malloc(sizeof(char) * (ft_wdlen(s, c, i) + 1));
 		if (!big[j])
 			return (NULL);
-		while (s[i] && s[i] != c)
+		while (s[i] && (s[i] != c || between_quotes(s, i)))
 			big[j][k++] = s[i++];
 		big[j++][k] = '\0';
 	}

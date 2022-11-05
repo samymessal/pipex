@@ -1,0 +1,8 @@
+total 96$
+-rw---S--T 1 smessal 2022_paris     0 Nov  5 13:47 coco$
+drwxr-xr-x 2 smessal 2022_paris  4096 Nov  3 13:15 includes$
+-rw-r--r-- 1 smessal 2022_paris 56402 Nov  5 13:52 libft.a$
+-rw-r--r-- 1 smessal 2022_paris  1398 Nov  3 13:15 Makefile$
+-rwxr-xr-x 1 smessal 2022_paris 22104 Nov  5 13:52 pipex$
+drwxr-xr-x 2 smessal 2022_paris  4096 Nov  5 13:52 srcs$
+drwxr-xr-x 3 smessal 2022_paris  4096 Nov  5 13:52 utils$
