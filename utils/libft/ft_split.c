@@ -6,11 +6,12 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 21:21:16 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/05 13:52:26 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/11 10:51:00 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 int	*find_single_quotes(char *s)
 {
@@ -121,13 +122,15 @@ char	**ft_split(char *s, char c)
 	return (big);
 }
 
-/*int	main()
+int	main(int ac, char **av)
 {
-	char **test = ft_split("Tripouille", ' ');
+	char **test = ft_split(av[1], ' ');
 	int	i = 0;
 	while (test[i])
 	{
 		printf("%s\n", test[i]);
+		free(test[i]);
 		i++;
 	}
-}*/
+	free(test);
+}
