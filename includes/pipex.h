@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:54:16 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/04 16:26:47 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/22 15:37:08 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include "../utils/libft/libft.h"
 
+/*----------Structures---------*/
 typedef struct s_command
 {
     char                *command;
@@ -29,6 +30,18 @@ typedef struct s_command
 	int					index;
     struct s_command    *next;
 }               t_command;
+
+typedef struct s_data
+{
+	t_command	*com;
+	int			ac;
+	int			infile;
+	int			outfile;
+	int			old_fd;
+	char		**paths;
+	char		*final_path;
+}				t_data;
+
 /*----------PARSING-----------*/
 char        **get_paths(char **envp);
 t_command   *extract_commands(char **av);
