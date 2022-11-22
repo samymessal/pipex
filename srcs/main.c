@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:35:51 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/04 19:13:38 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/22 14:37:49 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int main(int ac, char **av, char **envp)
     infile = open(av[1], O_RDONLY);
 	if (infile != -1)
 		dup2(infile, STDIN_FILENO);
-    outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC);
+    outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC | 0644);
     // dup2(outfile, STDOUT_FILENO);
     while (com)
     {
@@ -60,6 +60,6 @@ int main(int ac, char **av, char **envp)
 		}
     }
 	wait(NULL);
-    // close(infile);
-    // close(outfile);
+    close(infile);
+    close(outfile);
 }
