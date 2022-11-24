@@ -6,59 +6,58 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 21:21:16 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/21 12:18:13 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/24 17:50:27 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-int	*find_single_quotes(char *s)
-{
-	int	count;
-	int	j;
-	int	*positions;
+// int	*find_single_quotes(char *s)
+// {
+// 	int	count;
+// 	int	j;
+// 	int	*positions;
 
-	count = 0;
-	j = 0;
-	while (s && s[j])
-	{
-		if (s[j] == '\'')
-			count++;
-		j++;
-	}
-	positions = malloc(sizeof(int) * (count + 1));
-	if (!positions)
-		return (NULL);
-	j = 0;
-	count = 0;
-	while (s && s[j])
-	{
-		if (s[j] == '\'')
-			positions[count++] = j;
-		j++;
-	}
-	positions[count] = 0;
-	return (positions);
-}
+// 	count = 0;
+// 	j = 0;
+// 	while (s && s[j])
+// 	{
+// 		if (s[j] == '\'')
+// 			count++;
+// 		j++;
+// 	}
+// 	positions = malloc(sizeof(int) * (count + 1));
+// 	if (!positions)
+// 		return (NULL);
+// 	j = 0;
+// 	count = 0;
+// 	while (s && s[j])
+// 	{
+// 		if (s[j] == '\'')
+// 			positions[count++] = j;
+// 		j++;
+// 	}
+// 	positions[count] = 0;
+// 	return (positions);
+// }
 
-int	between_quotes(char *s, int i)
-{
-	int	j;
-	int	*positions;
+// int	between_quotes(char *s, int i)
+// {
+// 	int	j;
+// 	int	*positions;
 
-	j = 0;
-	positions = find_single_quotes(s);
-	if (!positions)
-		return (0);
-	while (positions && positions[j] && positions[j + 1])
-	{
-		if (i > positions[j] && i < positions[j + 1])
-			return (free(positions), 1);
-		j++;
-	}
-	return (free(positions), 0);
-}
+// 	j = 0;
+// 	positions = find_single_quotes(s);
+// 	if (!positions)
+// 		return (0);
+// 	while (positions && positions[j] && positions[j + 1])
+// 	{
+// 		if (i > positions[j] && i < positions[j + 1])
+// 			return (free(positions), 1);
+// 		j++;
+// 	}
+// 	return (free(positions), 0);
+// }
 
 static size_t	ft_cwords(char const *s, char c)
 {
@@ -67,12 +66,12 @@ static size_t	ft_cwords(char const *s, char c)
 
 	i = 0;
 	count = 0;
-	while (s[i])
+	while (s && s[i])
 	{
-		if (s[i] != c && !between_quotes((char *)s, i))
+		if (s[i] != c)
 		{
 			count++;
-			while (s[i] && (s[i] != c || between_quotes((char *)s, i)))
+			while (s[i] && (s[i] != c))
 				i++;
 		}
 		while (s[i] && s[i] == c)
@@ -86,7 +85,7 @@ static size_t	ft_wdlen(char const *s, char c, int i)
 	size_t	len;
 
 	len = 0;
-	while (s[i] && (s[i] != c || between_quotes((char *)s, i)))
+	while (s && s[i] && (s[i] != c))
 	{
 		i++;
 		len++;
@@ -114,23 +113,10 @@ char	**ft_split(char *s, char c)
 		big[j] = malloc(sizeof(char) * (ft_wdlen(s, c, i) + 1));
 		if (!big[j])
 			return (NULL);
-		while (s[i] && (s[i] != c || between_quotes(s, i)))
+		while (s[i] && (s[i] != c))
 			big[j][k++] = s[i++];
 		big[j++][k] = '\0';
 	}
 	big[j] = 0;
 	return (big);
 }
-
-// int	main(int ac, char **av)
-// {
-// 	char **test = ft_split(av[1], ' ');
-// 	int	i = 0;
-// 	while (test[i])
-// 	{
-// 		printf("%s\n", test[i]);
-// 		free(test[i]);
-// 		i++;
-// 	}
-// 	free(test);
-// }

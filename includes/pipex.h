@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:54:16 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/22 15:37:08 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/24 18:26:53 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,9 @@ t_command	*ft_lstnew_com(char *arg, int index);
 void        ft_lst_addback_com(t_command **com, t_command *new);
 void        fill_list(t_command *com, char *arg, int index);
 int			len_list(t_command *com);
+/*----------FREE---------------*/
+void	free_tab(char **tab);
+void	free_com(t_command *com);
+void	free_data(t_data *data);
 
 #endif

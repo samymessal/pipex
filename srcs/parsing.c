@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:51:18 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/04 16:35:50 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/24 18:28:03 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char    **get_paths(char **envp)
     return (paths);
 }
 
+// Tester avec double pointeur liste chainee
+
 t_command   *extract_commands(char **av)
 {
     t_command   *com;
@@ -66,15 +68,17 @@ char    *command_exists(t_command *com, char **paths)
     int     i;
 
     i = 0;
+	if (!access(com->command, X_OK))
+		return(com->command);
     while (paths && paths[i])
     {
-        if (!access(com->command, X_OK))
-			return(com->command);
 		final_path = ft_strjoin(paths[i], "/");
         final_path = ft_strjoin(final_path, com->command);
         if (!access(final_path, X_OK))
             return (final_path);
         i++;
     }
+	if (final_path)
+		free(final_path);
     return (NULL);
 }

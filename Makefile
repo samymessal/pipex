@@ -6,13 +6,13 @@
 #    By: smessal <smessal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/08 14:36:13 by smessal           #+#    #+#              #
-#    Updated: 2022/11/01 18:31:18 by smessal          ###   ########.fr        #
+#    Updated: 2022/11/24 16:30:57 by smessal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC	=		srcs/main.c srcs/parsing.c utils/utils.c utils/utils_list.c
+SRC	=		srcs/main.c srcs/parsing.c utils/utils.c utils/utils_list.c utils/free.c
 OBJ =		$(SRC:.c=.o)
-CC	=		cc
+CC	=		cc -g
 #CFLAGS	=	-Wall -Werror -Wextra
 RM		=	rm -rf
 NAME	=	pipex

@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 18:25:53 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/04 16:36:21 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/24 18:24:13 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void    ft_lst_addback_com(t_command **com, t_command *new)
     t_command   *copy;
 
     copy = *com;
-    while(copy->next)
+    while(copy && copy->next)
         copy = copy->next;
     copy->next = new;
 }
@@ -41,19 +41,20 @@ void    fill_list(t_command *com, char *arg, int index)
     split = ft_split(arg, ' ');
     if (!split)
         return ;
-    com->command = split[0];
+    com->command = ft_strdup(split[0]);
     com->options = ft_calloc(sizeof(char *), ft_count_tab(split) + 1);
     if (!com->options)
         return ;
     i = 0;
     while(i < (ft_count_tab(split)))
     {
-        com->options[i] = split[i];
+        com->options[i] = ft_strdup(split[i]);
         i++;
     }
     com->options[i] = NULL;
 	com->index = index;
     com->next = NULL;
+	free_tab(split);
 }
 
 int	len_list(t_command *com)
