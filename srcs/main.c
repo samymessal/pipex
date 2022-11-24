@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:35:51 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/24 17:17:25 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/24 19:05:11 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ int main(int ac, char **av, char **envp)
 			conditions_parent(data, fd);
 	}
 	wait(NULL);
-	free_data(data);
+	// free_data(data);
 	return (0);
 }
