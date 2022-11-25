@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 16:33:57 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/25 15:25:55 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/25 18:11:02 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ void	free_tab(char **tab)
 	i = 0;
 	while (tab && tab[i])
 	{
-		free(tab[i]);
+		if (tab[i])
+			free(tab[i]);
 		i++;
 	}
-	free(tab);
+	if (tab)
+		free(tab);
 }
 
 void	free_com(t_command **com)
@@ -32,23 +34,29 @@ void	free_com(t_command **com)
 	while (com && *com)
 	{
 		temp = *com;
-		free((*com)->command);
-		free_tab((*com)->options);
+		if ((*com)->command)
+			free((*com)->command);
+		if ((*com)->options)
+			free_tab((*com)->options);
 		(*com) = (*com)->next;
-		free(temp);
+		if (temp)
+			free(temp);
 	}
 }
 
 void	free_data(t_data **data)
 {
-	if ((*data)->temp)
-		free_com(&(*data)->temp);
-	if ((*data)->com)
-		free((*data)->com);
-	if (data && (*data)->paths)
-		free_tab((*data)->paths);
-	if ((*data) && (*data)->final_path)
-		free((*data)->final_path);
-	if ((*data))
-		free(*data);
+	if (data)
+	{
+		if ((*data)->temp)
+			free_com(&(*data)->temp);
+		if ((*data)->com)
+			free((*data)->com);
+		if (data && (*data)->paths)
+			free_tab((*data)->paths);
+		if ((*data) && (*data)->final_path)
+			free((*data)->final_path);
+		if ((*data))
+			free(*data);
+	}
 }

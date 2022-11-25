@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:51:18 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/25 13:09:08 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/25 18:13:39 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,19 @@ char    **get_paths(char **envp)
         i++;
     }
     i = 0;
-    while (i < 5)
-    {
-        env_path++;
-        i++;
-    }
-    paths = ft_split(env_path, ':');
-    if (!paths)
-        return (NULL);
-    return (paths);
+    if (env_path)
+	{
+		while (i < 5)
+		{
+			env_path++;
+			i++;
+		}
+		paths = ft_split(env_path, ':');
+		if (!paths)
+			return (NULL);	
+    	return (paths);
+	}
+	return (NULL);
 }
 // Tester avec double pointeur liste chainee
 t_command   **extract_commands(char **av)
@@ -67,19 +71,23 @@ char    *command_exists(t_command *com, char **paths)
 {
     char    *final_path;
     int     i;
+	int		work;
 
     i = 0;
-	if (!access(com->command, X_OK))
+	final_path = NULL;
+	work = access(com->command, X_OK);
+	if (!work)
 		return(com->command);
-    while (paths && paths[i])
+    while (paths && paths[i] && com->command)
     {
 		final_path = ft_strjoin(paths[i], "/");
         final_path = ft_strjoin(final_path, com->command);
-        if (!access(final_path, X_OK))
+        work = access(final_path, X_OK);
+		if (!work)
             return (final_path);
+		else if (final_path)
+			free(final_path);
         i++;
     }
-	if (final_path)
-		free(final_path);
     return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:35:51 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/25 16:42:54 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/25 16:57:35 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,11 @@ int main(int ac, char **av, char **envp)
 	int			i;
 	
 	i = 0;
+	if (ac != 5)
+	{
+		ft_putstr_fd("Incorrect number of arguments\n", 1);
+		return (0);
+	}
     data = init_data(ac, av, envp);
     while (i < ac - 3)
     {
