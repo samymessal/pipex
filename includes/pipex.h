@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:54:16 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/24 19:05:21 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/25 12:45:52 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_command
 
 typedef struct s_data
 {
-	t_command	*com;
+	t_command	**com;
 	int			ac;
 	int			infile;
 	int			outfile;
@@ -44,7 +44,7 @@ typedef struct s_data
 
 /*----------PARSING-----------*/
 char        **get_paths(char **envp);
-t_command   *extract_commands(char **av);
+t_command   **extract_commands(char **av);
 char        *command_exists(t_command *com, char **paths);
 /*----------UTILS-------------*/
 int         ft_count_tab(char **tab);
@@ -55,6 +55,6 @@ int			len_list(t_command *com);
 /*----------FREE---------------*/
 void	free_tab(char **tab);
 void	free_com(t_command **com);
-void	free_data(t_data *data);
+void	free_data(t_data **data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:51:18 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/24 19:05:37 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/25 13:09:08 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,25 @@ char    **get_paths(char **envp)
         return (NULL);
     return (paths);
 }
-
 // Tester avec double pointeur liste chainee
-t_command   *extract_commands(char **av)
+t_command   **extract_commands(char **av)
 {
-    t_command   *com;
+    t_command   **com;
     int         i;
 	int			index;
     
     i = 3;
 	index = 0;
-    com = ft_lstnew_com(av[2], index);
+	com = malloc(sizeof(t_command *) * 1);
+	if (!com)
+		return (NULL);
+    *com = ft_lstnew_com(av[2], index);
 	index++;
-    if (!com)
+    if (!(*com))
         return (NULL);
     while (av && av[i])
     {
-        ft_lst_addback_com(&com, ft_lstnew_com(av[i], index));
+        ft_lst_addback_com(com, ft_lstnew_com(av[i], index));
         i++;
 		index++;
 		if (!av[i + 1])

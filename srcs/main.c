@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:35:51 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/24 19:05:11 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/25 13:13:36 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_data	*init_data(int ac, char **av, char **envp)
     data->infile = open(av[1], O_RDONLY);
 	if (data->infile != -1)
 		dup2(data->infile, STDIN_FILENO);
-	data->outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC | 0664);
+	data->outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC);
 	data->old_fd = 0;
 	data->final_path = NULL;
 	return (data);
@@ -33,25 +33,25 @@ t_data	*init_data(int ac, char **av, char **envp)
 
 int	conditions_child(t_data	*data, int fd[2], char **envp)
 {
-	if (data->com->index == data->ac - 4)
+	if ((*data->com)->index == data->ac - 4)
 		dup2(data->outfile, STDOUT_FILENO);
 	else
 		dup2(fd[1], STDOUT_FILENO);
-	if (data->com->index != 0)
+	if ((*data->com)->index != 0)
 		dup2(data->old_fd, STDIN_FILENO);
-	data->final_path = command_exists(data->com, data->paths);
+	data->final_path = command_exists((*data->com), data->paths);
 	if (data->final_path)
-		execve(data->final_path, data->com->options, envp);
+		execve(data->final_path, (*data->com)->options, envp);
 	else
-		return (free_data(data), 0);
-	return (free_data(data), 1);
+		return (0);
+	return (1);
 }
 
 void	conditions_parent(t_data *data, int fd[2])
 {
 	data->old_fd = fd[0];
 	close(fd[1]);
-	data->com = data->com->next;
+	(*data->com) = (*data->com)->next;
 }
 
 int main(int ac, char **av, char **envp)
@@ -61,7 +61,7 @@ int main(int ac, char **av, char **envp)
 	int			fd[2];
 
     data = init_data(ac, av, envp);
-    while (data->com)
+    while ((*data->com))
     {
 		if (pipe(fd) == -1)
 		{
@@ -78,6 +78,6 @@ int main(int ac, char **av, char **envp)
 			conditions_parent(data, fd);
 	}
 	wait(NULL);
-	// free_data(data);
+	// free_data(&data);
 	return (0);
 }
