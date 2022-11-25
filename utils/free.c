@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 16:33:57 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/25 14:09:25 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/25 15:25:55 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ void	free_com(t_command **com)
 
 void	free_data(t_data **data)
 {
-	free_com(&(*data)->temp);
-	free((*data)->com);
+	if ((*data)->temp)
+		free_com(&(*data)->temp);
+	if ((*data)->com)
+		free((*data)->com);
 	if (data && (*data)->paths)
 		free_tab((*data)->paths);
 	if ((*data) && (*data)->final_path)

@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:35:51 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/25 14:11:38 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/25 16:42:54 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,13 @@ int	conditions_child(t_data	*data, int fd[2], char **envp)
 	if ((*data->com)->index != 0)
 		dup2(data->old_fd, STDIN_FILENO);
 	data->final_path = command_exists((*data->com), data->paths);
+	// (*data->com)->pid = getpid();
+	// printf("Final path: %s\n", data->final_path);
 	if (data->final_path)
+	{
+		// printf("Executing: %s\n", (*data->com)->command);
 		execve(data->final_path, (*data->com)->options, envp);
+	}
 	else
 		return (free_data(&data), 0);
 	return (free_data(&data), 1);
@@ -53,17 +58,32 @@ void	conditions_parent(t_data *data, int fd[2])
 {
 	data->old_fd = fd[0];
 	close(fd[1]);
-	(*data->com) = (*data->com)->next;
+	if ((*data->com))
+		(*data->com) = (*data->com)->next;
 }
+
+// void	wait_all(t_data *data)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < data->ac - 3)
+// 	{
+// 		waitpid((*data->com)->pid, &(*data->com)->wpid, 0);
+// 		i++;
+// 	}
+// }
 
 int main(int ac, char **av, char **envp)
 {
     int         id;
     t_data		*data;
 	int			fd[2];
-
+	int			i;
+	
+	i = 0;
     data = init_data(ac, av, envp);
-    while ((*data->com))
+    while (i < ac - 3)
     {
 		if (pipe(fd) == -1)
 		{
@@ -77,7 +97,11 @@ int main(int ac, char **av, char **envp)
 				return (1);
 		}
 		else
+		{
+			// wait_all(data);
 			conditions_parent(data, fd);
+		}
+		i++;
 	}
 	wait(NULL);
 	free_data(&data);

@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:54:16 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/25 14:06:23 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/25 16:42:09 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_command
     char                *command;
     char                **options;
 	int					index;
+	// int					pid;
+	// int					wpid;
     struct s_command    *next;
 }               t_command;
 
