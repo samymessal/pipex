@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:35:51 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/25 13:13:36 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/25 14:11:38 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_data	*init_data(int ac, char **av, char **envp)
 	data->ac = ac;
 	data->paths = get_paths(envp);
 	data->com = extract_commands(av);
+	data->temp = (*data->com);
     data->infile = open(av[1], O_RDONLY);
 	if (data->infile != -1)
 		dup2(data->infile, STDIN_FILENO);
@@ -33,6 +34,7 @@ t_data	*init_data(int ac, char **av, char **envp)
 
 int	conditions_child(t_data	*data, int fd[2], char **envp)
 {
+	close(fd[0]);
 	if ((*data->com)->index == data->ac - 4)
 		dup2(data->outfile, STDOUT_FILENO);
 	else
@@ -43,8 +45,8 @@ int	conditions_child(t_data	*data, int fd[2], char **envp)
 	if (data->final_path)
 		execve(data->final_path, (*data->com)->options, envp);
 	else
-		return (0);
-	return (1);
+		return (free_data(&data), 0);
+	return (free_data(&data), 1);
 }
 
 void	conditions_parent(t_data *data, int fd[2])
@@ -78,6 +80,6 @@ int main(int ac, char **av, char **envp)
 			conditions_parent(data, fd);
 	}
 	wait(NULL);
-	// free_data(&data);
+	free_data(&data);
 	return (0);
 }

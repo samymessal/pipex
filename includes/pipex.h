@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:54:16 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/25 12:45:52 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/25 14:06:23 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_command
 typedef struct s_data
 {
 	t_command	**com;
+	t_command	*temp;
 	int			ac;
 	int			infile;
 	int			outfile;
