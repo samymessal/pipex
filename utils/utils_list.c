@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 18:25:53 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/24 18:24:13 by smessal          ###   ########.fr       */
+/*   Updated: 2022/11/26 16:43:56 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void    fill_list(t_command *com, char *arg, int index)
     }
     com->options[i] = NULL;
 	com->index = index;
+	// com->pid = 0;
+	// com->wpid = 0;
     com->next = NULL;
 	free_tab(split);
 }
