@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:51:18 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/25 18:13:39 by smessal          ###   ########.fr       */
+/*   Updated: 2022/12/03 19:00:14 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char    **get_paths(char **envp)
 	}
 	return (NULL);
 }
-// Tester avec double pointeur liste chainee
+
 t_command   **extract_commands(char **av)
 {
     t_command   **com;

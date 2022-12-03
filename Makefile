@@ -6,11 +6,12 @@
 #    By: smessal <smessal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/08 14:36:13 by smessal           #+#    #+#              #
-#    Updated: 2022/12/02 16:35:39 by smessal          ###   ########.fr        #
+#    Updated: 2022/12/03 17:55:30 by smessal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC	=		srcs/main.c srcs/parsing.c srcs/exec.c utils/utils.c utils/utils_list.c utils/free.c
+SRC	=		srcs/main.c srcs/parsing.c srcs/exec.c utils/utils.c utils/utils_list.c utils/free.c \
+			srcs/errors.c
 OBJ =		$(SRC:.c=.o)
 CC	=		cc -g
 #CFLAGS	=	-Wall -Werror -Wextra

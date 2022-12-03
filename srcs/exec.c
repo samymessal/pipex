@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 15:49:06 by smessal           #+#    #+#             */
-/*   Updated: 2022/12/02 19:18:22 by smessal          ###   ########.fr       */
+/*   Updated: 2022/12/03 19:04:55 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@
 
 int	conditions_child(t_data	*data, int fd[2], char **envp)
 {
+	if (data->infile < 0)
+		return (0);
 	if ((*data->com)->index == data->ac - 4)
 		dup2(data->outfile, STDOUT_FILENO);
 	else
@@ -107,11 +109,11 @@ void    exec_all_test(t_data *data, char **envp)
 	int			i;
     
     i = 0;
-    if (pipe(data->fd) == -1)
-    {
-        write(1, "Error in pipe\n", 14);
-        return ;
-    }
+	if (pipe(data->fd) == -1)
+	{
+		write(1, "Error in pipe\n", 14);
+		return ;
+	}
     while (i < data->ac - 3)
     {
         data->pid[i] = fork();
@@ -119,13 +121,15 @@ void    exec_all_test(t_data *data, char **envp)
 		{	
 			if(!conditions_child(data, data->fd, envp))
 				return ;
+			free_data(&data);
 		}
+		else if (data->pid[i] < 0)
+			return ;
 		else
-		{
 			conditions_parent(data, data->fd);
-		}
 		i++;
 	}
-    wait_for_all(data, data->temp);
-    // wait(NULL);
+	close(data->fd[0]);
+	close(data->fd[1]);
+    wait_for_all(data, (*data->com));
 }

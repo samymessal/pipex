@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:35:51 by smessal           #+#    #+#             */
-/*   Updated: 2022/12/02 19:16:47 by smessal          ###   ########.fr       */
+/*   Updated: 2022/12/03 19:19:12 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ t_data	*init_data(int ac, char **av, char **envp)
 	data->paths = get_paths(envp);
 	data->com = extract_commands(av);
 	data->temp = (*data->com);
+	data->final_path = NULL;
     data->infile = open(av[1], O_RDONLY);
 	data->outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC);
 	data->old_fd = 0;
-	data->final_path = NULL;
 	return (data);
 }
 
@@ -55,6 +55,7 @@ void	wait_for_all(t_data *data, t_command *com)
 int main(int ac, char **av, char **envp)
 {
     int         id;
+	int			check;
     t_data		*data;
 	// int			fd[2];
 	// int			i;
@@ -63,12 +64,16 @@ int main(int ac, char **av, char **envp)
 	if (ac != 5)
 	{
 		ft_putstr_fd("Incorrect number of arguments\n", 2);
-		return (0);
+		return (1);
 	}
     data = init_data(ac, av, envp);
+	check_data(data);
 	exec_all_test(data, envp);
-	// wait(NULL);
-	// if (data)
-	// 	free_data(&data);
+	// close(data->fd[0]);
+	// close(data->fd[1]);
+	// close(data->old_fd);
+	// wait_for_all(data, (*data->com));
+	if (data)
+		free_data(&data);
 	return (0);
 }

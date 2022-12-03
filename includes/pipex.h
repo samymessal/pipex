@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:54:16 by smessal           #+#    #+#             */
-/*   Updated: 2022/12/02 17:07:06 by smessal          ###   ########.fr       */
+/*   Updated: 2022/12/03 18:57:04 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #define PIPEX_H
 
 # include <stdio.h>
+# include <errno.h>
+# include <string.h>
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -67,5 +69,10 @@ void    exec_all_test(t_data *data, char **envp);
 void	free_tab(char **tab);
 void	free_com(t_command **com);
 void	free_data(t_data **data);
+void	free_tab_int(int **tab);
+/*----------ERRORS-------------*/
+void    print_error(t_data **data, int code);
+void    check_data(t_data *data);
+int     search_commands(t_data  *data);
 
 #endif
