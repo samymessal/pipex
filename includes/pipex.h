@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:54:16 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/26 16:44:04 by smessal          ###   ########.fr       */
+/*   Updated: 2022/12/02 17:07:06 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ typedef struct s_data
 	int			infile;
 	int			outfile;
 	int			old_fd;
+	int			fd[2];
+	int			*pid;
 	char		**paths;
 	char		*final_path;
 }				t_data;
@@ -55,6 +57,12 @@ t_command	*ft_lstnew_com(char *arg, int index);
 void        ft_lst_addback_com(t_command **com, t_command *new);
 void        fill_list(t_command *com, char *arg, int index);
 int			len_list(t_command *com);
+/*----------EXEC---------------*/
+void    first_child(t_data *data, t_command *com, char **envp);
+void    second_child(t_data *data, t_command *com, char **envp);
+void    exec_all(t_data *data, char **envp);
+void	wait_for_all(t_data *data, t_command *com);
+void    exec_all_test(t_data *data, char **envp);
 /*----------FREE---------------*/
 void	free_tab(char **tab);
 void	free_com(t_command **com);
