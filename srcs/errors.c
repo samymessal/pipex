@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:32:11 by smessal           #+#    #+#             */
-/*   Updated: 2022/12/03 19:05:45 by smessal          ###   ########.fr       */
+/*   Updated: 2022/12/03 19:34:55 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,18 @@
 int     search_commands(t_data  *data)
 {
     t_command   *temp;
+    char        *command;
     int         i;
 
     temp = (*data->com);
     i = 0;
+    command = NULL;
     while (temp)
     {
-        if (!command_exists((*data->com), data->paths))
+        if (command)
+            free(command);
+        command = command_exists(temp, data->paths);
+        if (!command)
             return (0);
         temp = temp->next;
         i++;
