@@ -6,26 +6,26 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 18:25:53 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/26 16:43:56 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/09 15:48:11 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-t_command	*ft_lstnew_com(char *arg, int index)
+t_cmdtab	*ft_lstnew_com(char *arg, int index)
 {
-	t_command	*new;
+	t_cmdtab	*new;
 
-	new = malloc(sizeof(t_command) * 1);
+	new = malloc(sizeof(t_cmdtab) * 1);
 	if (!new)
 		return (NULL);
 	fill_list(new, arg, index);
 	return (new);
 }
 
-void    ft_lst_addback_com(t_command **com, t_command *new)
+void    ft_lst_addback_com(t_cmdtab **com, t_cmdtab *new)
 {
-    t_command   *copy;
+    t_cmdtab   *copy;
 
     copy = *com;
     while(copy && copy->next)
@@ -33,7 +33,7 @@ void    ft_lst_addback_com(t_command **com, t_command *new)
     copy->next = new;
 }
 
-void    fill_list(t_command *com, char *arg, int index)
+void    fill_list(t_cmdtab *com, char *arg, int index)
 {
     char    **split;
     int     i;
@@ -59,10 +59,10 @@ void    fill_list(t_command *com, char *arg, int index)
 	free_tab(split);
 }
 
-int	len_list(t_command *com)
+int	len_list(t_cmdtab *com)
 {
 	int			len;
-	t_command	*copy;
+	t_cmdtab	*copy;
 
 	len = 0;
 	copy = com;

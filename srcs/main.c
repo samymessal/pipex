@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:35:51 by smessal           #+#    #+#             */
-/*   Updated: 2022/12/03 19:19:12 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/09 16:33:58 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,25 @@ t_data	*init_data(int ac, char **av, char **envp)
 	if (!data)
 		return (NULL);
 	data->ac = ac;
-	data->pid = malloc(sizeof(int) * (ac - 3));
+	data->p_count = ac - 3;
+	data->pid = malloc(sizeof(int) * data->p_count);
 	if (!data->pid)
 		return (NULL);
+	data->fd = malloc(sizeof(int) * data->p_count);
+	if (!data->fd)
+		return (NULL);
+	data->env = envp;
 	data->paths = get_paths(envp);
 	data->com = extract_commands(av);
 	data->temp = (*data->com);
 	data->final_path = NULL;
-    data->infile = open(av[1], O_RDONLY);
-	data->outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC);
+    data->infile.file = open(av[1], O_RDONLY);
+	data->outfile.file = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC);
 	data->old_fd = 0;
 	return (data);
 }
 
-void	wait_for_all(t_data *data, t_command *com)
+void	wait_for_all(t_data *data, t_cmdtab *com)
 {
 	int		i;
 	char	*file;
@@ -61,7 +66,7 @@ int main(int ac, char **av, char **envp)
 	// int			i;
 	
 	// i = 0;
-	if (ac != 5)
+	if (ac < 5)
 	{
 		ft_putstr_fd("Incorrect number of arguments\n", 2);
 		return (1);

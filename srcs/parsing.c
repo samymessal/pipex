@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:51:18 by smessal           #+#    #+#             */
-/*   Updated: 2022/12/03 19:54:26 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/09 15:48:11 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ char    **get_paths(char **envp)
 	return (NULL);
 }
 
-t_command   **extract_commands(char **av)
+t_cmdtab   **extract_commands(char **av)
 {
-    t_command   **com;
+    t_cmdtab   **com;
     int         i;
 	int			index;
     
     i = 3;
 	index = 0;
-	com = malloc(sizeof(t_command *) * 1);
+	com = malloc(sizeof(t_cmdtab *) * 1);
 	if (!com)
 		return (NULL);
     *com = ft_lstnew_com(av[2], index);
@@ -67,7 +67,7 @@ t_command   **extract_commands(char **av)
     return(com);
 }
 
-char    *command_exists(t_command *com, char **paths)
+char    *command_exists(t_cmdtab *com, char **paths)
 {
     char    *final_path;
     int     i;

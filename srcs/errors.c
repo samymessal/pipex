@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:32:11 by smessal           #+#    #+#             */
-/*   Updated: 2022/12/03 19:34:55 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/09 15:48:11 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int     search_commands(t_data  *data)
 {
-    t_command   *temp;
+    t_cmdtab   *temp;
     char        *command;
     int         i;
 

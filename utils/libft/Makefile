@@ -6,7 +6,7 @@
 #    By: smessal <smessal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/12 15:23:51 by smessal           #+#    #+#              #
-#    Updated: 2022/09/08 20:45:55 by smessal          ###   ########.fr        #
+#    Updated: 2023/02/09 15:02:03 by smessal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ BONUS_OBJS		= $(BONUS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror -c
 
 NAME			= libft.a
 

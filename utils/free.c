@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 16:33:57 by smessal           #+#    #+#             */
-/*   Updated: 2022/12/03 19:55:59 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/09 15:48:11 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	free_tab(char **tab)
 		free(tab);
 }
 
-void	free_com(t_command **com)
+void	free_com(t_cmdtab **com)
 {
-	t_command	*temp;
+	t_cmdtab	*temp;
 	
 	while (com && *com)
 	{

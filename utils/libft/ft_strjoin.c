@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 20:14:01 by smessal           #+#    #+#             */
-/*   Updated: 2022/11/25 18:02:23 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/09 15:39:09 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[++j])
 		dest[i++] = s2[j];
 	dest[i] = '\0';
-	free(s1);
+	// if (s1)
+	// 	free(s1);
 	return (dest);
 }
 /*
