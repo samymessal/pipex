@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:54:16 by smessal           #+#    #+#             */
-/*   Updated: 2023/02/09 16:33:31 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/13 14:37:55 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_file
 
 typedef struct s_data
 {
-	t_cmdtab	**com;
+	t_cmdtab	*com;
 	t_cmdtab	*temp;
 	int			ac;
 	int			p_count;
@@ -52,6 +52,7 @@ typedef struct s_data
 	int			old_fd;
 	int			**fd;
 	int			*pid;
+	int			is_abs;
 	char		**paths;
 	char		*final_path;
 	char		**env;
@@ -59,8 +60,10 @@ typedef struct s_data
 
 /*----------PARSING-----------*/
 char        **get_paths(char **envp);
-t_cmdtab   **extract_commands(char **av);
+t_cmdtab   *extract_commands(char **av);
 char        *command_exists(t_cmdtab *com, char **paths);
+char    	*get_abs_path(char **paths, char **opt);
+
 /*----------UTILS-------------*/
 int         ft_count_tab(char **tab);
 t_cmdtab	*ft_lstnew_com(char *arg, int index);
@@ -73,6 +76,7 @@ void    second_child(t_data *data, t_cmdtab *com, char **envp);
 void    exec_all(t_data *data, char **envp);
 void	wait_for_all(t_data *data, t_cmdtab *com);
 void    exec_all_test(t_data *data, char **envp);
+void	exec(t_cmdtab *tab, t_data *data);
 /*----------FREE---------------*/
 void	free_tab(char **tab);
 void	free_com(t_cmdtab **com);

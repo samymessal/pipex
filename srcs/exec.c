@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 15:49:06 by smessal           #+#    #+#             */
-/*   Updated: 2023/02/09 16:32:14 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/13 15:06:57 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,25 @@
 //     wait_for_all(data, (*data->com));
 // }
 
+int	check_access(t_data *data, t_cmdtab *tab)
+{
+	get_abs_path(data->env, tab->options);
+	if (!data->env || !tab->command)
+	{
+		if (access(tab->options[0], X_OK) == 0)
+		{
+			tab->command = tab->options[0];
+			data->is_abs = 1;
+		}
+	}
+	if (access(tab->options[0], F_OK) == 0
+		&& access(tab->options[0], X_OK) == -1)
+		exit(126);
+	if (!tab->command && tab->options[0]) /*Source problemes pipes consecutifs*/
+		exit(127);
+	return (0);
+}
+
 void	init_pipes(t_data *data)
 {
 	int	i;
@@ -168,16 +187,35 @@ void	make_dup(int in, int out)
 
 void	redir(t_data *data, t_cmdtab *tab, int index)
 {
-	if (data->infile.file)
-		make_dup(data->infile.fd, 1);
-	if (data->outfile.file)
-        make_dup(0, data->outfile.fd);
+	// if (data->infile.file)
+	// 	make_dup(data->infile.fd, 1);
+	// if (data->outfile.file)
+    //     make_dup(0, data->outfile.fd);
 	if (index == 0 && data->p_count > 1)
 		make_dup(0, data->fd[index][1]);
 	else if (index > 0 && index < data->p_count - 1)
 		make_dup(data->fd[index - 1][0], data->fd[index][1]);
 	else if (index != 0 && index == data->p_count - 1)
 		make_dup(data->fd[index - 1][0], 1);
+}
+
+char    *get_abs_path(char **paths, char **opt)
+{
+    int     i;
+    char    *abs;
+
+    i = 0;
+    abs = NULL;
+    while (paths && paths[i] && opt[0])
+    {
+     	abs = ft_strjoin(ft_strdup(paths[i]), opt[0]);
+		if (access(abs, F_OK | X_OK) == 0)
+			break ;
+		free(abs);
+		abs = NULL;
+		i++;
+    }
+    return (abs);
 }
 
 void	exec(t_cmdtab *tab, t_data *data)
@@ -203,5 +241,5 @@ void	exec(t_cmdtab *tab, t_data *data)
 		i++;
 	}
 	close_pipes(data);
-	wait_all(data, tmp);
+	wait_for_all(data, tmp);
 }

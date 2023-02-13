@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:32:11 by smessal           #+#    #+#             */
-/*   Updated: 2023/02/09 15:48:11 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/13 14:27:40 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void    print_error(t_data **data, int code)
 
 void    check_data(t_data *data)
 {
-    if (data->infile < 0)
+    if (data->infile.file < 0)
         print_error(&data, 2);
     else if (!data->paths)
         print_error(&data, -1);

@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:35:51 by smessal           #+#    #+#             */
-/*   Updated: 2023/02/09 16:33:58 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/13 14:49:25 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 t_data	*init_data(int ac, char **av, char **envp)
 {
 	t_data	*data;
+	int		i;
 
+	i = 0;
 	data = malloc(sizeof(t_data) * 1);
 	if (!data)
 		return (NULL);
@@ -24,16 +26,25 @@ t_data	*init_data(int ac, char **av, char **envp)
 	data->pid = malloc(sizeof(int) * data->p_count);
 	if (!data->pid)
 		return (NULL);
-	data->fd = malloc(sizeof(int) * data->p_count);
+	data->fd = malloc(sizeof(int *) * data->p_count);
 	if (!data->fd)
 		return (NULL);
+	while (i < data->p_count)
+	{
+		data->fd[i] = malloc(sizeof(int) * 2);
+		if (!data->fd[i])
+			return (NULL);
+		i++;
+	}
 	data->env = envp;
 	data->paths = get_paths(envp);
 	data->com = extract_commands(av);
-	data->temp = (*data->com);
+	data->temp = data->com;
 	data->final_path = NULL;
-    data->infile.file = open(av[1], O_RDONLY);
-	data->outfile.file = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC);
+    data->infile.fd = open(av[1], O_RDONLY);
+	data->infile.file = ft_strdup(av[1]);
+	data->outfile.fd = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC);
+	data->outfile.file = ft_strdup(av[ac - 1]);
 	data->old_fd = 0;
 	return (data);
 }
@@ -51,7 +62,7 @@ void	wait_for_all(t_data *data, t_cmdtab *com)
 		// 	file = data->infile;
 		// else if (i == 1)
 		// 	file = data->outfile;
-		waitpid(data->pid[i], &wpid, 0);
+		waitpid(0, &wpid, 0);
 		// check_status(WEXITSTATUS(data->wpid), pip[i].options[0], file);
 		i++;
 	}
@@ -72,13 +83,14 @@ int main(int ac, char **av, char **envp)
 		return (1);
 	}
     data = init_data(ac, av, envp);
-	check_data(data);
-	exec_all_test(data, envp);
+	// check_data(data);
+	// exec_all_test(data, envp);
+	exec(data->com, data);
 	// close(data->fd[0]);
 	// close(data->fd[1]);
 	// close(data->old_fd);
 	// wait_for_all(data, (*data->com));
-	if (data)
-		free_data(&data);
+	// if (data)
+	// 	free_data(&data);
 	return (0);
 }
