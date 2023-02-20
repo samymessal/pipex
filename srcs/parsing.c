@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:51:18 by smessal           #+#    #+#             */
-/*   Updated: 2023/02/13 14:35:52 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/20 12:41:15 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,29 @@
 
 char    **get_paths(char **envp)
 {
-    char **paths;
-    char *env_path;
-    int i;
+    int        i;
+    char    *path_var;
+    char    **env_path;
 
     i = 0;
-    while (envp && envp[i])
+    env_path = NULL;
+    while (envp[i])
     {
-        if (!ft_strncmp(envp[i], "PATH", 4))
-            env_path = envp[i];
+        path_var = ft_strnstr(envp[i], "PATH=", 6);
+        if (path_var)
+        {
+            env_path = ft_split(path_var, ':');
+            break ;
+        }
         i++;
     }
-    i = 0;
-    if (env_path)
-	{
-		while (i < 5)
-		{
-			env_path++;
-			i++;
-		}
-		paths = ft_split(env_path, ':');
-		if (!paths)
-			return (NULL);	
-    	return (paths);
-	}
-	return (NULL);
+    i = -1;
+    while (env_path && env_path[++i])
+        env_path[i] = ft_strjoin(env_path[i], "/");
+    return (env_path);
 }
 
-t_cmdtab   *extract_commands(char **av)
+t_cmdtab   *extract_commands(char **av, t_data *data)
 {
     t_cmdtab   *com;
     int         i;
@@ -54,11 +49,12 @@ t_cmdtab   *extract_commands(char **av)
 		return (NULL);
     com = ft_lstnew_com(av[2], index);
 	index++;
-    if (com)
+    if (!com)
         return (NULL);
     while (av && av[i])
     {
-        ft_lst_addback_com(&com, ft_lstnew_com(av[i], index));
+		// printf("av: %s\n", av[i]);
+		ft_lst_addback_com(&com, ft_lstnew_com(av[i], index));
         i++;
 		index++;
 		if (!av[i + 1])

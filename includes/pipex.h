@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 15:54:16 by smessal           #+#    #+#             */
-/*   Updated: 2023/02/13 14:37:55 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/20 12:22:30 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_data
 
 /*----------PARSING-----------*/
 char        **get_paths(char **envp);
-t_cmdtab   *extract_commands(char **av);
+t_cmdtab   *extract_commands(char **av, t_data *data);
 char        *command_exists(t_cmdtab *com, char **paths);
 char    	*get_abs_path(char **paths, char **opt);
 
@@ -70,6 +70,8 @@ t_cmdtab	*ft_lstnew_com(char *arg, int index);
 void        ft_lst_addback_com(t_cmdtab **com, t_cmdtab *new);
 void        fill_list(t_cmdtab *com, char *arg, int index);
 int			len_list(t_cmdtab *com);
+/*-----------Minishell---------*/
+void	make_dup(int in, int out);
 /*----------EXEC---------------*/
 void    first_child(t_data *data, t_cmdtab *com, char **envp);
 void    second_child(t_data *data, t_cmdtab *com, char **envp);

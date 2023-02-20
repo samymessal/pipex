@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 15:49:06 by smessal           #+#    #+#             */
-/*   Updated: 2023/02/13 15:06:57 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/20 13:22:44 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	init_pipes(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i < data->p_count)
+	while (i < data->p_count - 1)
 	{
 		if (pipe(data->fd[i]) == -1)
 			return ;
@@ -171,7 +171,7 @@ void	close_pipes(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i < data->p_count)
+	while (i < data->p_count - 1)
 	{
 		close(data->fd[i][0]);
 		close(data->fd[i][1]);
@@ -187,16 +187,16 @@ void	make_dup(int in, int out)
 
 void	redir(t_data *data, t_cmdtab *tab, int index)
 {
-	// if (data->infile.file)
+	// if (index == 0)
 	// 	make_dup(data->infile.fd, 1);
-	// if (data->outfile.file)
+	// if (index == data->p_count - 1)
     //     make_dup(0, data->outfile.fd);
 	if (index == 0 && data->p_count > 1)
-		make_dup(0, data->fd[index][1]);
+		make_dup(data->infile.fd, data->fd[index][1]);
 	else if (index > 0 && index < data->p_count - 1)
 		make_dup(data->fd[index - 1][0], data->fd[index][1]);
 	else if (index != 0 && index == data->p_count - 1)
-		make_dup(data->fd[index - 1][0], 1);
+		make_dup(data->fd[index - 1][0], data->outfile.fd);
 }
 
 char    *get_abs_path(char **paths, char **opt)
@@ -231,6 +231,8 @@ void	exec(t_cmdtab *tab, t_data *data)
 		data->pid[i] = fork();
 		if (data->pid[i] < 0)
 			return ;
+		tab->command = get_abs_path(get_paths(data->env), tab->options);
+		redir(data, tab, i);
 		if (data->pid[i] == 0)
 		{
 			check_access(data, tab);

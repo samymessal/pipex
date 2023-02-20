@@ -6,7 +6,7 @@
 /*   By: smessal <smessal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:35:51 by smessal           #+#    #+#             */
-/*   Updated: 2023/02/13 14:49:25 by smessal          ###   ########.fr       */
+/*   Updated: 2023/02/20 13:24:09 by smessal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ t_data	*init_data(int ac, char **av, char **envp)
 	data->pid = malloc(sizeof(int) * data->p_count);
 	if (!data->pid)
 		return (NULL);
-	data->fd = malloc(sizeof(int *) * data->p_count);
+	data->fd = malloc(sizeof(int *) * data->p_count - 1);
 	if (!data->fd)
 		return (NULL);
-	while (i < data->p_count)
+	while (i < data->p_count - 1)
 	{
 		data->fd[i] = malloc(sizeof(int) * 2);
 		if (!data->fd[i])
@@ -38,7 +38,7 @@ t_data	*init_data(int ac, char **av, char **envp)
 	}
 	data->env = envp;
 	data->paths = get_paths(envp);
-	data->com = extract_commands(av);
+	data->com = extract_commands(av, data);
 	data->temp = data->com;
 	data->final_path = NULL;
     data->infile.fd = open(av[1], O_RDONLY);
@@ -68,6 +68,16 @@ void	wait_for_all(t_data *data, t_cmdtab *com)
 	}
 }
 
+void	printer(t_data *data)
+{
+	if (data->com && data->com->command)	
+		printf("Command: %s\n", data->com->command);
+	else
+		printf("No command\n");
+	for (int i = 0; data->com->options[i]; i++)
+		printf("Options_%d: %s\n", i, data->com->options[i]);
+}
+
 int main(int ac, char **av, char **envp)
 {
     int         id;
@@ -85,6 +95,7 @@ int main(int ac, char **av, char **envp)
     data = init_data(ac, av, envp);
 	// check_data(data);
 	// exec_all_test(data, envp);
+	// printer(data);
 	exec(data->com, data);
 	// close(data->fd[0]);
 	// close(data->fd[1]);
